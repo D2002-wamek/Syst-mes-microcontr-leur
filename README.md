@@ -27,7 +27,8 @@ Cela veut dire que le SPI n'est pas utilisé pour l'instant dans notre programme
 Réponse :
 -Pinout & Configuration : nous avons activé le SPI2
 -SPI2 Mode and Configuration : Mode (Full-Duplex Master)
--Basic Parameters : mettre le Data Size 8 bits ( voir page 12).
+-Basic Parameters : mettre le Data Size 8 bits (voir page 12).
+Nous avons mis sur 8 bits car nous voulons uniquement utiliser le PORT A. 
 
 5. Configurons-les.
 Voir image Configuration SPI.
