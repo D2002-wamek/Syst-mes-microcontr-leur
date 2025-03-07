@@ -97,6 +97,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);  // Allume/éteint la LED LD2
+	  HAL_Delay(500); // Pause de 500ms (clignotement)
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
