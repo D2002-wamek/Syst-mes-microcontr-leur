@@ -14,9 +14,9 @@ Voir image Code pour tester LD2
    
 # 2 Le GPIO Expander et le VU-Metre
 
-2.1 Configuration
+# 2.1 Configuration
 1. Quelle est la référence du GPIO Expander ? 
-Réponse : La référence du GPIO Expander est MCP23S17: 16-Bit I/O Expander with SPI Interface (Voir Page 39 de la DATASHEET_20001952c.
+Réponse : La référence du GPIO Expander est MCP23S17: 16-Bit I/O Expander with SPI Interface (Voir Page 39 de la DATASHEET_20001952c).
 Téléchargeons sa datasheet.
 
 2. Sur le STM32, quel SPI est utilisé ?
@@ -25,8 +25,17 @@ Cela veut dire que le SPI n'est pas utilisé pour l'instant dans notre programme
 
 3. Quels sont les paramètres à configurer dans STM32CubeIDE ?
 Réponse :
+-Pinout & Configuration : nous avons activé le SPI2
+-SPI2 Mode and Configuration : Mode (Full-Duplex Master)
+-Basic Parameters : mettre le Data Size 8 bits ( voir page 12).
 
-4. Configurons-les.
+5. Configurons-les.
 Voir image Configuration SPI.
+
+# 2.2 Tests
+1. Faisons clignoter une ou plusieurs LED.
+2. Pour toutes les tester, vous pouvez faire un chenillard (par exemple).
+
+
 
 
