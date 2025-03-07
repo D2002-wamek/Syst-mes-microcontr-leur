@@ -17,7 +17,7 @@ Voir image Code pour tester LD2
 2.1 Configuration
 1. Quelle est la référence du GPIO Expander ? 
 Réponse : La référence du GPIO Expander est TCA6418E.
-Téléchargeons datasheet.
+Téléchargeons sa datasheet.
 
 2. Sur le STM32, quel SPI est utilisé ?
 Réponse : Dans notre code, aucune instance SPI n'est initialisée.
