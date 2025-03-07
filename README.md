@@ -12,5 +12,8 @@ avec leur mode par défaut sans activer la BSP.
 2 Le GPIO Expander et le VU-Metre
 
 2.1 Configuration
+1. Quelle est la référence du GPIO Expander ? 
+Réponse : La référence du GPIO Expander est TCA6418E.
+Téléchargeons datasheet.
 
 
