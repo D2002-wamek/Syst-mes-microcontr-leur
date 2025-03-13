@@ -107,11 +107,16 @@ int __io_putchar(int chr)
 
 // Fonction d'envoi SPI au MCP23S17
 void MCP23S17_WriteRegister(uint8_t reg, uint8_t value) {
-    uint8_t data[3] = { MCP23S17_ADDRESS, reg, value };
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET); // CS LOW
-    HAL_SPI_Transmit(&hspi3, data, 3, HAL_MAX_DELAY);
-    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);   // CS HIGH
+    uint8_t data[3];
+    data[0] = MCP23S17_ADDRESS; // Adresse + bit d'écriture
+    data[1] = reg;   // Registre cible
+    data[2] = value; // Valeur à écrire
+
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET); // Activer CS
+    HAL_SPI_Transmit(&hspi3, data, 3, HAL_MAX_DELAY); // Transmettre SPI
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);   // Désactiver CS
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -162,28 +167,26 @@ int main(void)
     HAL_Delay(10);
 
     // Initialisation du MCP23S17
-   MCP23S17_WriteRegister(MCP23S17_IOCON, 0x08);  // Mode SPI hardware
-   MCP23S17_WriteRegister(MCP23S17_IODIRA, 0x00); // PORTA en sortie
-   MCP23S17_WriteRegister(MCP23S17_IODIRB, 0x00); // PORTB en sortie
-   MCP23S17_WriteRegister(MCP23S17_GPIOA, 0x00);  // LEDs éteintes
-   MCP23S17_WriteRegister(MCP23S17_GPIOB, 0x00);  // LEDs éteintes
+    MCP23S17_WriteRegister(MCP23S17_IOCON, 0x08);  // Mode SPI hardware
+    MCP23S17_WriteRegister(MCP23S17_IODIRA, 0x00); // PORTA en sortie (0 = output)
+    MCP23S17_WriteRegister(MCP23S17_GPIOA, 0x00);  // Éteindre toutes les LEDs
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-   while (1) {
-           for (uint8_t i = 0; i < 16; i++) {
-               if (i < 8) {
-                   MCP23S17_WriteRegister(MCP23S17_GPIOA, (1 << i)); // LED sur PORTA
-                   MCP23S17_WriteRegister(MCP23S17_GPIOB, 0x00);      // PORTB éteint
-               } else {
-                   MCP23S17_WriteRegister(MCP23S17_GPIOA, 0x00);      // PORTA éteint
-                   MCP23S17_WriteRegister(MCP23S17_GPIOB, (1 << (i - 8))); // LED sur PORTB
-               }
-               HAL_Delay(200); // Pause pour l'effet chenillard
-           }
-       }
+  while (1) {
+
+      for (uint8_t i = 0; i < 8; i++) {
+
+          MCP23S17_WriteRegister(MCP23S17_GPIOA, (1 << i)); // Allumer une LED
+
+          HAL_Delay(200); // Pause pour l'effet chenillard
+
+      }
+
+  }
 
 
   /* USER CODE END 3 */
