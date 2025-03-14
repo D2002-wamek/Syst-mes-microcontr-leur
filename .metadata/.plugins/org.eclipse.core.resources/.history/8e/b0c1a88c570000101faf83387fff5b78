@@ -112,6 +112,22 @@ void MCP23S17_WriteRegister(MCP23S17_HandleTypeDef *dev, uint8_t reg, uint8_t va
 }
 
 /* USER CODE BEGIN PFP */
+/*Fonction pour lecture SPI*/
+uint8_t MCP23S17_ReadRegister(uint8_t reg) {
+    uint8_t dataTx[2];  // Tableau pour la transmission
+    uint8_t dataRx[1];  // Tableau pour la réception
+
+    dataTx[0] = MCP23S17_ADDRESS | 0x01; // Adresse avec bit de lecture (OR avec 0x01)
+    dataTx[1] = reg; // Registre cible
+
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET); // Activer CS
+    HAL_SPI_Transmit(&hspi3, dataTx, 2, HAL_MAX_DELAY); // Envoyer adresse + registre
+    HAL_SPI_Receive(&hspi3, dataRx, 1, HAL_MAX_DELAY);  // Lire la réponse
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET); // Désactiver CS
+
+    return dataRx[0]; // Retourner la valeur lue
+}
+
 
 /* USER CODE END PFP */
 
@@ -199,6 +215,13 @@ int main(void)
      };
   MCP23S17_Init(&mcp23s17);
 
+
+  // Initialisation du MCP23S17
+  MCP23S17_WriteRegister(MCP23S17_IOCON, 0x08); // Activer le mode SPI hardware
+
+  // Lire et vérifier le registre IOCON
+  uint8_t regValue = MCP23S17_ReadRegister(MCP23S17_IOCON);
+  printf("Valeur du registre IOCON: 0x%02X\r\n", regValue);
 
   /* USER CODE END 2 */
 

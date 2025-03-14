@@ -1,33 +1,33 @@
-22:08:24 **** Incremental Build of configuration Debug for project Systeme_a_microcontroleur ****
+23:07:43 **** Incremental Build of configuration Debug for project Systeme_a_microcontroleur ****
 make -j16 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:156:3: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
-  156 |   printf("\r\n==== Systeme micro ====\r\n");
+../Core/Src/main.c:191:3: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+  191 |   printf("\r\n==== Systeme micro ====\r\n");
       |   ^~~~~~
 ../Core/Src/main.c:38:1: note: include '<stdio.h>' or provide a declaration of 'printf'
    37 | #include "main.h"
   +++ |+#include <stdio.h>
    38 | 
-../Core/Src/main.c:156:3: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
-  156 |   printf("\r\n==== Systeme micro ====\r\n");
+../Core/Src/main.c:191:3: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+  191 |   printf("\r\n==== Systeme micro ====\r\n");
       |   ^~~~~~
-../Core/Src/main.c:156:3: note: include '<stdio.h>' or provide a declaration of 'printf'
+../Core/Src/main.c:191:3: note: include '<stdio.h>' or provide a declaration of 'printf'
 arm-none-eabi-gcc -o "Systeme_a_microcontroleur.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\debor\OneDrive\Desktop\ENSEA\ENSEA_24-25\Semestre 10\Systeme_µC\Syst-mes-microcontr-leur\Systeme_a_microcontroleur\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Systeme_a_microcontroleur.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: Systeme_a_microcontroleur.elf
  
 arm-none-eabi-size  Systeme_a_microcontroleur.elf 
 arm-none-eabi-objdump -h -S Systeme_a_microcontroleur.elf  > "Systeme_a_microcontroleur.list"
    text	   data	    bss	    dec	    hex	filename
-  17760	    104	   2144	  20008	   4e28	Systeme_a_microcontroleur.elf
+  17872	    104	   2144	  20120	   4e98	Systeme_a_microcontroleur.elf
 Finished building: default.size.stdout
  
 Finished building: Systeme_a_microcontroleur.list
  
-22:08:42 **** Incremental Build of configuration Debug for project Systeme_a_microcontroleur ****
+23:07:53 **** Incremental Build of configuration Debug for project Systeme_a_microcontroleur ****
 make -j16 all 
 arm-none-eabi-size  Systeme_a_microcontroleur.elf 
    text	   data	    bss	    dec	    hex	filename
-  17760	    104	   2144	  20008	   4e28	Systeme_a_microcontroleur.elf
+  17872	    104	   2144	  20120	   4e98	Systeme_a_microcontroleur.elf
 Finished building: default.size.stdout
  

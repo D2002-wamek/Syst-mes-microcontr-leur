@@ -1,10 +1,10 @@
-22:08:42 **** Incremental Build of configuration Debug for project Systeme_a_microcontroleur ****
+23:07:53 **** Incremental Build of configuration Debug for project Systeme_a_microcontroleur ****
 make -j16 all 
 arm-none-eabi-size  Systeme_a_microcontroleur.elf 
    text	   data	    bss	    dec	    hex	filename
-  17760	    104	   2144	  20008	   4e28	Systeme_a_microcontroleur.elf
+  17872	    104	   2144	  20120	   4e98	Systeme_a_microcontroleur.elf
 Finished building: default.size.stdout
  
 
-22:08:43 Build Finished. 0 errors, 0 warnings. (took 631ms)
+23:07:54 Build Finished. 0 errors, 0 warnings. (took 569ms)
 

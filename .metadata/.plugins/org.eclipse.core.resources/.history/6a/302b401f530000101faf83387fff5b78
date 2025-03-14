@@ -38,31 +38,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
-
-
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-/* Structure et définition du driver MCP23S17 */
-typedef struct {
-    SPI_HandleTypeDef *hspi;   // Interface SPI
-    GPIO_TypeDef *CS_Port;     // Port du Chip Select
-    uint16_t CS_Pin;           // Pin du Chip Select
-    GPIO_TypeDef *RST_Port;    // Port du Reset
-    uint16_t RST_Pin;          // Pin du Reset
-} MCP23S17_HandleTypeDef;
-
-
-
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* Définitions des registres */
 #define MCP23S17_ADDRESS   0x40  // Adresse SPI du MCP23S17 (A0, A1, A2 = GND)
 #define MCP23S17_IODIRA    0x00  // Registre direction PORTA
 #define MCP23S17_IODIRB    0x01  // Registre direction PORTB
@@ -74,15 +49,27 @@ typedef struct {
 extern SPI_HandleTypeDef hspi3;  // SPI3
 
 
+
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+
+
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
-/* Prototypes des fonctions du driver */
-void MCP23S17_Init(MCP23S17_HandleTypeDef *dev);
-void MCP23S17_WriteRegister(MCP23S17_HandleTypeDef *dev, uint8_t reg, uint8_t value);
-void MCP23S17_Chenillard(MCP23S17_HandleTypeDef *dev, uint16_t delay_ms);
+
 
 /* USER CODE END PM */
 
@@ -102,16 +89,10 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_SPI3_Init(void);
-
-/* Fonction d'écriture d'un registre */
-void MCP23S17_WriteRegister(MCP23S17_HandleTypeDef *dev, uint8_t reg, uint8_t value) {
-    uint8_t data[3] = {MCP23S17_ADDRESS, reg, value};
-    HAL_GPIO_WritePin(dev->CS_Port, dev->CS_Pin, GPIO_PIN_RESET);
-    HAL_SPI_Transmit(dev->hspi, data, 3, HAL_MAX_DELAY);
-    HAL_GPIO_WritePin(dev->CS_Port, dev->CS_Pin, GPIO_PIN_SET);
-}
-
+void MCP23S17_WriteRegister(uint8_t reg, uint8_t value);
 /* USER CODE BEGIN PFP */
+
+
 
 /* USER CODE END PFP */
 
@@ -124,29 +105,13 @@ int __io_putchar(int chr)
 	return chr;
 }
 
-/* Initialisation du MCP23S17 */
-void MCP23S17_Init(MCP23S17_HandleTypeDef *dev) {
-    HAL_GPIO_WritePin(dev->RST_Port, dev->RST_Pin, GPIO_PIN_RESET);
-    HAL_Delay(10);
-    HAL_GPIO_WritePin(dev->RST_Port, dev->RST_Pin, GPIO_PIN_SET);
-    HAL_Delay(10);
-    MCP23S17_WriteRegister(dev, MCP23S17_IOCON, 0x08);
-    MCP23S17_WriteRegister(dev, MCP23S17_IODIRA, 0x00);
-    MCP23S17_WriteRegister(dev, MCP23S17_IODIRB, 0x00);
+// Fonction d'envoi SPI au MCP23S17
+void MCP23S17_WriteRegister(uint8_t reg, uint8_t value) {
+    uint8_t data[3] = { MCP23S17_ADDRESS, reg, value };
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET); // CS LOW
+    HAL_SPI_Transmit(&hspi3, data, 3, HAL_MAX_DELAY);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);   // CS HIGH
 }
-
-
-/* Effet chenillard sur 16 LEDs */
-void MCP23S17_Chenillard(MCP23S17_HandleTypeDef *dev, uint16_t delay_ms) {
-    for (uint8_t i = 0; i < 16; i++) {
-        uint8_t portA_val = (i < 8) ? (1 << i) : 0;
-        uint8_t portB_val = (i >= 8) ? (1 << (i - 8)) : 0;
-        MCP23S17_WriteRegister(dev, MCP23S17_GPIOA, portA_val);
-        MCP23S17_WriteRegister(dev, MCP23S17_GPIOB, portB_val);
-        HAL_Delay(delay_ms);
-    }
-}
-
 /* USER CODE END 0 */
 
 /**
@@ -190,23 +155,34 @@ int main(void)
 
   printf("\r\n==== Systeme micro ====\r\n");
 
-  MCP23S17_HandleTypeDef mcp23s17 = {
-         .hspi = &hspi3,
-         .CS_Port = GPIOB,
-         .CS_Pin = GPIO_PIN_7,
-         .RST_Port = GPIOA,
-         .RST_Pin = GPIO_PIN_0
-     };
-  MCP23S17_Init(&mcp23s17);
+  // RESET du MCP23S17 via PA0
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
+    HAL_Delay(10);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+    HAL_Delay(10);
 
-
+    // Initialisation du MCP23S17
+   MCP23S17_WriteRegister(MCP23S17_IOCON, 0x08);  // Mode SPI hardware
+   MCP23S17_WriteRegister(MCP23S17_IODIRA, 0x00); // PORTA en sortie
+   MCP23S17_WriteRegister(MCP23S17_IODIRB, 0x00); // PORTB en sortie
+   MCP23S17_WriteRegister(MCP23S17_GPIOA, 0x00);  // LEDs éteintes
+   MCP23S17_WriteRegister(MCP23S17_GPIOB, 0x00);  // LEDs éteintes
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
    while (1) {
-	   MCP23S17_Chenillard(&mcp23s17, 200);
+           for (uint8_t i = 0; i < 16; i++) {
+               if (i < 8) {
+                   MCP23S17_WriteRegister(MCP23S17_GPIOA, (1 << i)); // LED sur PORTA
+                   MCP23S17_WriteRegister(MCP23S17_GPIOB, 0x00);      // PORTB éteint
+               } else {
+                   MCP23S17_WriteRegister(MCP23S17_GPIOA, 0x00);      // PORTA éteint
+                   MCP23S17_WriteRegister(MCP23S17_GPIOB, (1 << (i - 8))); // LED sur PORTB
+               }
+               HAL_Delay(200); // Pause pour l'effet chenillard
+           }
        }
 
 
