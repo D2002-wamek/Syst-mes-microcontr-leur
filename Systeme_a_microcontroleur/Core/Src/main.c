@@ -83,6 +83,7 @@ extern SPI_HandleTypeDef hspi3;  // SPI3
 void MCP23S17_Init(MCP23S17_HandleTypeDef *dev);
 void MCP23S17_WriteRegister(MCP23S17_HandleTypeDef *dev, uint8_t reg, uint8_t value);
 void MCP23S17_Chenillard(MCP23S17_HandleTypeDef *dev, uint16_t delay_ms);
+void MCP23S17_SetLED(MCP23S17_HandleTypeDef *dev, uint8_t ledIndex, uint8_t state);
 
 /* USER CODE END PM */
 
@@ -112,6 +113,42 @@ void MCP23S17_WriteRegister(MCP23S17_HandleTypeDef *dev, uint8_t reg, uint8_t va
 }
 
 /* USER CODE BEGIN PFP */
+void MCP23S17_SetLED(MCP23S17_HandleTypeDef *dev, uint8_t ledIndex, uint8_t state) {
+	    if (ledIndex >= 16) return; // Vérifier que l'index est valide
+
+	    uint8_t portA_val = 0, portB_val = 0;
+
+	    // Lire l'état actuel des ports
+	    HAL_GPIO_WritePin(dev->CS_Port, dev->CS_Pin, GPIO_PIN_RESET);
+	    uint8_t dataA[2] = {MCP23S17_ADDRESS | 1, MCP23S17_GPIOA};
+	    HAL_SPI_Transmit(dev->hspi, dataA, 2, HAL_MAX_DELAY);
+	    HAL_SPI_Receive(dev->hspi, &portA_val, 1, HAL_MAX_DELAY);
+	    HAL_GPIO_WritePin(dev->CS_Port, dev->CS_Pin, GPIO_PIN_SET);
+
+	    HAL_GPIO_WritePin(dev->CS_Port, dev->CS_Pin, GPIO_PIN_RESET);
+	    uint8_t dataB[2] = {MCP23S17_ADDRESS | 1, MCP23S17_GPIOB};
+	    HAL_SPI_Transmit(dev->hspi, dataB, 2, HAL_MAX_DELAY);
+	    HAL_SPI_Receive(dev->hspi, &portB_val, 1, HAL_MAX_DELAY);
+	    HAL_GPIO_WritePin(dev->CS_Port, dev->CS_Pin, GPIO_PIN_SET);
+
+	    // Modifier la LED ciblée
+	    if (ledIndex < 8) {
+	        if (state)
+	            portA_val |= (1 << ledIndex);
+	        else
+	            portA_val &= ~(1 << ledIndex);
+	    } else {
+	        if (state)
+	            portB_val |= (1 << (ledIndex - 8));
+	        else
+	            portB_val &= ~(1 << (ledIndex - 8));
+	    }
+
+	    // Écrire les nouvelles valeurs
+	    MCP23S17_WriteRegister(dev, MCP23S17_GPIOA, portA_val);
+	    MCP23S17_WriteRegister(dev, MCP23S17_GPIOB, portB_val);
+	}
+
 
 /* USER CODE END PFP */
 
@@ -120,8 +157,8 @@ void MCP23S17_WriteRegister(MCP23S17_HandleTypeDef *dev, uint8_t reg, uint8_t va
 
 int __io_putchar(int chr)
 {
-	HAL_UART_Transmit(&huart2, (uint8_t*)&chr, 1, HAL_MAX_DELAY);
-	return chr;
+ HAL_UART_Transmit(&huart2, (uint8_t*)&chr, 1, HAL_MAX_DELAY);
+ return chr;
 }
 
 /* Initialisation du MCP23S17 */
@@ -157,7 +194,6 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
 
 
   /* USER CODE END 1 */
@@ -204,10 +240,24 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
    while (1) {
-	   MCP23S17_Chenillard(&mcp23s17, 200);
-       }
+       MCP23S17_SetLED(&mcp23s17, 1, 1);  // Allume la LED 1
+       HAL_Delay(500);
+       MCP23S17_SetLED(&mcp23s17, 1, 0);  // Éteint la LED 1
+       HAL_Delay(500);
+       MCP23S17_SetLED(&mcp23s17, 2, 1);  // Allume la LED 2
+	   HAL_Delay(500);
+	   MCP23S17_SetLED(&mcp23s17, 3, 0);  // Éteint la LED 3
+	   HAL_Delay(500);
+	   MCP23S17_SetLED(&mcp23s17, 5, 1);  // Allume la LED 5
+	   HAL_Delay(500);
+	   MCP23S17_SetLED(&mcp23s17, 5, 0);  // Éteint la LED 5
+	   HAL_Delay(500);
+	   MCP23S17_SetLED(&mcp23s17, 7, 1);  // Allume la LED 7
+	   HAL_Delay(500);
+	   MCP23S17_SetLED(&mcp23s17, 7, 0);  // Éteint la LED 7
+	   HAL_Delay(500);
+   }
 
 
   /* USER CODE END 3 */
@@ -392,7 +442,6 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END MX_GPIO_Init_2 */
 }
-
 /* USER CODE BEGIN 4 */
 
 
