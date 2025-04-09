@@ -44,5 +44,8 @@ Voir image Configuration SPI.
 2. Écrivez une fonction shell permettant d’allumer ou d’éteindre n’importe
 quelle LED.
 
+# 3 Le CODEC Audio SGTL5000
+# 3.1 Configuration préalables
+
 
 
