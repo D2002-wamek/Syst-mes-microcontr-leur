@@ -38,6 +38,11 @@ Voir image Configuration SPI.
 1. Faisons clignoter une ou plusieurs LED.
 2. Pour toutes les tester, vous pouvez faire un chenillard (par exemple).
 
+# 2.3 Driver
+
+1. Écrivez un driver pour piloter les LED. Utilisez une structure.
+2. Écrivez une fonction shell permettant d’allumer ou d’éteindre n’importe
+quelle LED.
 
 
 
