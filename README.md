@@ -55,6 +55,8 @@ Les pins utilisés pour l'I2C sont :
 
 À quel I2C cela correspond dans le STM32 ?
 Réponse :
+I2C_SLC ==> PB10
+I2C_SDA ==> PB11
 
 2. Activons l’I2C correspondant, laissez la configuration par défaut.
 
