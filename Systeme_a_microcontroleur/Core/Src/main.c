@@ -38,7 +38,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stm32l4xx_hal.h"
 
 
 /* USER CODE END Includes */
@@ -56,7 +56,6 @@ typedef struct {
 
 
 
-
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -70,8 +69,12 @@ typedef struct {
 #define MCP23S17_GPIOB     0x13  // Registre des données PORTB
 #define MCP23S17_IOCON     0x0A  // Registre de configuration
 
+#define CODEC_I2C_ADDRESS     (0x14 << 1)  // HAL utilise l'adresse 8 bits (décalée à gauche)
+#define CHIP_ID_REG_ADDRESS   0x0000       // Adresse du registre CHIP_ID
+
 
 extern SPI_HandleTypeDef hspi3;  // SPI3
+
 
 
 /* USER CODE END PD */
@@ -100,6 +103,29 @@ SPI_HandleTypeDef hspi3;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+HAL_StatusTypeDef Read_ChipID(uint8_t *chip_id)
+{
+    HAL_StatusTypeDef status;
+
+    // Lecture via HAL_I2C_Mem_Read :
+    // - hi2c2 : handle du périphérique I2C
+    // - CODEC_I2C_ADDRESS : adresse esclave du périphérique (sur 8 bits)
+    // - CHIP_ID_REG_ADDRESS : adresse du registre à lire (sur 16 bits)
+    // - I2C_MEMADD_SIZE_16BIT : type d'adresse mémoire (16 bits)
+    // - chip_id : pointeur vers la variable de réception
+    // - 1 : nombre d'octets à lire
+    // - 100 : délai en ms (timeout)
+
+    status = HAL_I2C_Mem_Read(&hi2c2,
+                              CODEC_I2C_ADDRESS,
+                              CHIP_ID_REG_ADDRESS,
+                              I2C_MEMADD_SIZE_16BIT,
+                              chip_id,
+                              1,
+                              100);
+
+    return status;
+}
 
 
 
@@ -253,6 +279,13 @@ int main(void)
          .RST_Pin = GPIO_PIN_0
      };
   MCP23S17_Init(&mcp23s17);
+
+  uint8_t chip_id_value;
+  if (Read_ChipID(&chip_id_value) == HAL_OK) {
+      printf("CHIP_ID = 0x%02X\n", chip_id_value);
+  } else {
+      printf("Erreur de lecture du CHIP_ID.\n");
+  }
 
 
   /* USER CODE END 2 */
