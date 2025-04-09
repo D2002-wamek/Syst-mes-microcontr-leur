@@ -1,0 +1,10 @@
+08:53:11 **** Incremental Build of configuration Debug for project rtos_td_shell ****
+make -j16 all 
+arm-none-eabi-size  rtos_td_shell.elf 
+   text	   data	    bss	    dec	    hex	filename
+  18972	    120	   2968	  22060	   562c	rtos_td_shell.elf
+Finished building: default.size.stdout
+ 
+
+08:53:11 Build Finished. 0 errors, 0 warnings. (took 224ms)
+

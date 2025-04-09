@@ -60,8 +60,8 @@ all: main-build
 main-build: Systeme_a_microcontroleur.elf secondary-outputs
 
 # Tool invocations
-Systeme_a_microcontroleur.elf Systeme_a_microcontroleur.map: $(OBJS) $(USER_OBJS) C:\Users\debor\OneDrive\Desktop\ENSEA\ENSEA_24-25\Semestre\ 10\Systeme_µC\Syst-mes-microcontr-leur\Systeme_a_microcontroleur\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Systeme_a_microcontroleur.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\debor\OneDrive\Desktop\ENSEA\ENSEA_24-25\Semestre 10\Systeme_µC\Syst-mes-microcontr-leur\Systeme_a_microcontroleur\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Systeme_a_microcontroleur.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Systeme_a_microcontroleur.elf Systeme_a_microcontroleur.map: $(OBJS) $(USER_OBJS) C:\Users\debor\OneDrive\Desktop\ENSEA\ENSEA_24-25\Semestre_10\Systeme_µC\Syst-mes-microcontr-leur\Systeme_a_microcontroleur\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Systeme_a_microcontroleur.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\debor\OneDrive\Desktop\ENSEA\ENSEA_24-25\Semestre_10\Systeme_µC\Syst-mes-microcontr-leur\Systeme_a_microcontroleur\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Systeme_a_microcontroleur.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

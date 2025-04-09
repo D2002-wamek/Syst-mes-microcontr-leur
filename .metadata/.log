@@ -34,3 +34,24 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-03-13 13:41:06.718
 !MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2025-03-26 08:42:46.990 -----------------------------------------------
+eclipse.buildId=Version 1.17.0
+java.version=21.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2025-03-26 08:43:34.528
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-03-26 08:43:38.772
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-03-26 08:43:38.773
+!MESSAGE Log4j2 initialized with config file C:\Users\debor\OneDrive\Desktop\ENSEA\ENSEA_24-25\Semestre 10\Systeme_µC\Syst-mes-microcontr-leur\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-03-26 08:43:43.430
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-03-26 08:45:08.873
+!MESSAGE Indexed 'rtos_td_shell' (27 sources, 104 headers) in 3.41 sec: 10,050 declarations; 61,315 references; 3 unresolved inclusions; 42 syntax errors; 147 unresolved names (0.21%)
