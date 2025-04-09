@@ -47,5 +47,66 @@ quelle LED.
 # 3 Le CODEC Audio SGTL5000
 # 3.1 Configuration préalables
 
+1. Quelles pins sont utilisées pour l’I2C ? 
+Réponse :
+Les pins utilisés pour l'I2C sont :
+-SCL (Serial Clock Line) : ligne d'horloge
+-SDA (Serial Data Line) : ligne de données
+
+À quel I2C cela correspond dans le STM32 ?
+Réponse :
+
+2. Activons l’I2C correspondant, laissez la configuration par défaut.
+
+3. Activez l’I2C correspondant, laissez la configuration par défaut.
+
+4. Configurez le SAI2 :
+— SAI A : Master with Master Clock Out,
+— Cochez I2S/PCM protocol,
+— SAI B : Synchronous Slave,
+— Cochez I2S/PCM protocol.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
