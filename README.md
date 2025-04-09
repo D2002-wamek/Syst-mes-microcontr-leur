@@ -68,6 +68,15 @@ I2C_SDA ==> PB11
 — SAI B : Synchronous Slave,
 — Cochez I2S/PCM protocol.
 
+# 3.2 Configuration du CODEC par l’I2C
+
+1. À l’aide d’un oscilloscope, vérifiez la présence d’une horloge sur le signal
+MCLK.
+
+2. À l’aide de la fonction HAL_I2C_Mem_Read(), récupérez la valeur du registre
+CHIP_ID (addresse 0x0000). L’adresse I2C du CODEC est 0x14.
+
+
 
 
 
